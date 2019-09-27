@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: downlink-deployment
+  labels:
+    app: downlink
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: downlink
+  template:
+    metadata:
+      labels:
+        app: downlink
+    spec:
+      containers:
+      - name: downlink
+        image: sariabod/docker-demo
+        ports:
+        - containerPort: 3000 
