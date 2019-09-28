@@ -18,4 +18,4 @@ spec:
       - name: downlink
         image: sariabod/docker-demo
         ports:
-        - containerPort: 3000 
+        - containerPort: 8000 
