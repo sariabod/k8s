@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: downlink-deployment
+  labels:
+    app: downlink
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: downlink
+  template:
+    metadata:
+      labels:
+        app: downlink
+    spec:
+      containers:
+        - name: downlink
+          image: sariabod/docker-demo
+          ports:
+            - containerPort: 8000
+              name: main-port
+          livenessProbe:
+            httpGet:
+              path: /liveness
+              port: main-port
+            initialDelaySeconds: 60
+            timeoutSeconds: 60
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: main-port
+            initialDelaySeconds: 180
+            timeoutSeconds: 300
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: downlink-service
+spec:
+  ports:
+    - port: 8000
+      nodePort: 31111
+      targetPort: main-port
+      protocol: TCP
+  selector:
+    app: downlink-deployment
+  type: LoadBalancer
