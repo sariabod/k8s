@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: downlink-deployment
   labels:
-    app: downlink
+    app: downlink-deployment
 spec:
   replicas: 1
   selector:
